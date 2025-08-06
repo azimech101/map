@@ -54,7 +54,7 @@
       const { currentMap, periodStart, periodEnd } = getCurrentMapInfo(now);
 
       document.getElementById("currentMap").innerText =
-        `🕒 現在のマップ：${currentMap}（${periodStart.toLocaleTimeString()}～${periodEnd.toLocaleTimeString()}）`;
+        `🕒 現在のマップ：${currentMap}（${periodStart.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}～${periodEnd.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}）`;
 
       // 残り時間の表示
       const countdownEl = document.getElementById("countdown");
@@ -69,8 +69,8 @@
       for (let i = 1; i <= 16; i++) {
         const time = new Date(periodStart.getTime() + i * rotationMs);
         const map = mapList[(mapList.indexOf(currentMap) + i) % mapList.length];
-        const timeStr = time.toLocaleTimeString();
-        const timeEndStr = new Date(time.getTime() + rotationMs).toLocaleTimeString();
+        const timeStr = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const timeEndStr = new Date(time.getTime() + rotationMs).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         const li = document.createElement("li");
         li.textContent = `${timeStr}～${timeEndStr} → ${map}`;
         listEl.appendChild(li);
