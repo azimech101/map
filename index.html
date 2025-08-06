@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -7,7 +8,8 @@
   <style>
     body { font-family: sans-serif; padding: 2em; background: #f7f7f7; }
     h1 { font-size: 1.8em; color: #333; }
-    .current { font-size: 1.4em; margin-bottom: 1em; }
+    .current { font-size: 1.4em; margin-bottom: 0.5em; }
+    .countdown { font-size: 1.2em; color: #555; margin-bottom: 1.5em; }
     .schedule { margin-top: 2em; }
     .schedule h2 { font-size: 1.2em; margin-bottom: 0.5em; }
     .schedule ul { list-style: none; padding: 0; }
@@ -17,6 +19,7 @@
 <body>
   <h1>🎮 マップローテーション</h1>
   <div class="current" id="currentMap">現在のマップを取得中...</div>
+  <div class="countdown" id="countdown">次のマップまで：計算中...</div>
   <div class="schedule">
     <h2>🗓 今後のスケジュール</h2>
     <ul id="scheduleList"></ul>
@@ -32,7 +35,6 @@
       "レッド・サンズ"
     ];
 
-    // 基準時刻：2025/08/06 09:00 が 東方絡繰御殿
     const baseTime = new Date("2025-08-06T09:00:00+09:00");
     const baseMapIndex = mapList.indexOf("東方絡繰御殿");
     const rotationMs = 90 * 60 * 1000; // 90分
@@ -54,6 +56,14 @@
       document.getElementById("currentMap").innerText =
         `🕒 現在のマップ：${currentMap}（${periodStart.toLocaleTimeString()}～${periodEnd.toLocaleTimeString()}）`;
 
+      // 残り時間の表示
+      const countdownEl = document.getElementById("countdown");
+      const remainingMs = periodEnd - now;
+      const minutes = Math.floor(remainingMs / 60000);
+      const seconds = Math.floor((remainingMs % 60000) / 1000);
+      countdownEl.innerText = `⌛ 次のマップまで：あと ${minutes} 分 ${seconds} 秒`;
+
+      // スケジュール更新
       const listEl = document.getElementById("scheduleList");
       listEl.innerHTML = "";
       for (let i = 1; i <= 16; i++) {
@@ -68,7 +78,7 @@
     }
 
     updateDisplay();
-    setInterval(updateDisplay, 60 * 1000); // 1分ごとに更新
+    setInterval(updateDisplay, 1000); // 1秒ごとに更新
   </script>
 </body>
 </html>
